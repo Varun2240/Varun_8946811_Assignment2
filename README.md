@@ -18,8 +18,8 @@ This project contains a simple web application with a PostgreSQL database, imple
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-repository/advance-containers.git
-   cd advance-containers
+   git clone https://github.com/Varun2240/Varun_8946811_Assignment2.git
+   cd docker_assignment2
    ```
 
 2. **Build the containers:**
@@ -59,8 +59,8 @@ This project contains a simple web application with a PostgreSQL database, imple
      ```json
      {
        "id": 1,
-       "first_name": "John",
-       "last_name": "Doe"
+       "first_name": "Varun",
+       "last_name": "Gundemoni"
      }
      ```
 
@@ -85,7 +85,7 @@ docker-compose down -v
 
 You can add sample data by sending a POST request to the `/staff` endpoint:
 ```bash
-curl -X POST -H "Content-Type: application/json" -d '{"first_name": "John", "last_name": "Doe"}' http://localhost:5000/staff
+curl -X POST -H "Content-Type: application/json" -d '{"first_name": "Varun", "last_name": "Gundemoni"}' http://localhost:5000/staff
 ```
 
 To fetch a staff member by ID:
@@ -105,6 +105,3 @@ curl http://localhost:5000/staff/1
 
 This project demonstrates the use of Docker and Docker Compose to containerize a Flask web application with a PostgreSQL database. The application is scalable, secure, and designed to persist data across container restarts using volumes and bind mounts.
 
----
-
-**Note**: If you need additional features, like load balancing and scaling, make sure to add a reverse proxy (Nginx/HAProxy) and adjust the `docker-compose.yml` file to replicate the `web` service.

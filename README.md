@@ -1,107 +1,128 @@
 
-# Advance Containers Assignment - Web Application with PostgreSQL
+# Advanced Containers Assignment (15%)
 
-This project contains a simple web application with a PostgreSQL database, implemented using Docker and Docker Compose. The application exposes an API to create and fetch user data. 
+## Author: Varun Gundemoni  
+## Repository: [Varun_8946811_Assignment2](https://github.com/Varun2240/Varun_8946811_Assignment2.git)
 
+---
 
+## Overview
+This project is a containerized web application that serves an API for staff management using Flask and PostgreSQL. The system is designed with Docker and Docker Compose, ensuring scalability, security, and proper container orchestration.
 
 ## Project Structure
 
-- `app.py`: The Flask web application.
-- `docker-compose.yml`: The Docker Compose configuration to orchestrate the web and database containers.
-- `Dockerfile`: The Dockerfile to build the Flask application container.
-- `init_db.sql`: SQL file to initialize the database with a `staff` table.
-- `requirements.txt`: List of dependencies for the Python application (Flask, psycopg2).
-- `logs/`: Directory to store application logs via bind mount.
+```
+docker_assignment2/
+│-- app.py                   # Flask API implementation
+│-- Dockerfile               # Docker image setup for the web application
+│-- docker-compose.yml       # Configuration to run multiple containers
+│-- requirements.txt         # Python dependencies
+│-- init_db.sql              # Database initialization script
+│-- logs/                    # Logs directory (bind mount)
+│-- README.md                # Documentation
+```
 
-## Setup and Configuration
+---
 
-1. **Clone the repository:**
-   ```bash
+## Technologies Used
+
+- **Backend:** Python (Flask)
+- **Database:** PostgreSQL (containerized)
+- **Containerization:** Docker & Docker Compose
+- **Networking:** Docker Network for inter-container communication
+- **Logging:** Bind Mounts to store logs on the host machine
+
+---
+
+## Setup & Installation
+
+### Prerequisites
+
+Ensure you have the following installed:
+
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+
+### Steps to Run the Project
+
+1. **Clone the Repository**
+   ```sh
    git clone https://github.com/Varun2240/Varun_8946811_Assignment2.git
-   cd docker_assignment2
+   cd Varun_8946811_Assignment2
    ```
 
-2. **Build the containers:**
-   Use Docker Compose to build the containers for both the web application and the PostgreSQL database:
-   ```bash
-   docker-compose build
+2. **Start the Containers**
+   ```sh
+   docker-compose up -d --build
    ```
 
-3. **Start the containers:**
-   Start the application and database containers using Docker Compose:
-   ```bash
-   docker-compose up
+3. **Verify Running Containers**
+   ```sh
+   docker ps
    ```
 
-   This will start the web application on port 5000 and the PostgreSQL database.
+4. **Check Logs**
+   ```sh
+   docker logs <container_name>
+   ```
 
-## API Endpoints
+5. **Access the API**
+   - Open your browser or use **curl** / Postman
+   - **Base URL:** `http://localhost:5000`
+   - **Endpoints:**
+     - `GET /staff/<id>` - Retrieve staff data
+     - `POST /staff` - Create new staff
 
-1. **POST /staff**: Create a new staff member.
-   - **Request body**:
-     ```json
-     {
-       "first_name": " Varun",
-       "last_name": "Gundemoni"
-     }
-     ```
-   - **Response**:
-     ```json
-     {
-       "id": 1
-     }
-     ```
+---
 
-2. **GET /staff/{id}**: Fetch a staff member by ID.
-   - **Example request**: `/staff/1`
-   - **Response**:
-     ```json
-     {
-       "id": 1,
-       "first_name": "Varun",
-       "last_name": "Gundemoni"
-     }
-     ```
+## API Usage
 
+### 1. Create a Staff Member
+```sh
+curl -X POST http://localhost:5000/staff      -H "Content-Type: application/json"      -d '{"first_name": "Varun", "last_name": "Gundemoni"}'
+```
 
-## Logging
+### 2. Get Staff Details
+```sh
+curl -X GET http://localhost:5000/staff/1
+```
 
-The application logs are saved in the `logs/` directory on the host machine, using a bind mount. This allows you to access the logs from your local system.
+---
 
-## Stopping the Containers
+## Scaling & Load Balancing (Bonus)
 
-To stop the running containers, use the following command:
-```bash
+To scale the web application and balance the load, run:
+```sh
+docker-compose up --scale web=3 -d
+```
+
+For load balancing, configure **Nginx** or **HAProxy** as a reverse proxy (Optional).
+
+---
+
+## Security Best Practices Implemented
+  
+ **Secrets Management** - Environment variables used for credentials  
+ **Data Persistence** - Docker Volumes ensure database persistence  
+ **Minimal Image Size** - Using Python Slim base image  
+
+---
+
+## Stopping & Cleaning Up
+
+To stop the running containers:
+```sh
 docker-compose down
 ```
 
-This will stop the containers and remove them. If you want to remove the volumes as well, add the `-v` flag:
-```bash
-docker-compose down -v
+To remove volumes & networks:
+```sh
+docker-compose down --volumes --remove-orphans
 ```
 
-## Sample Data
-
-You can add sample data by sending a POST request to the `/staff` endpoint:
-```bash
-curl -X POST -H "Content-Type: application/json" -d '{"first_name": "Varun", "last_name": "Gundemoni"}' http://localhost:5000/staff
-```
-
-To fetch a staff member by ID:
-```bash
-curl http://localhost:5000/staff/1
-```
-
-## Troubleshooting
-
-- If the web application cannot connect to the database, check the database logs to ensure it's running and the credentials are correct.
-- Ensure that all containers are up and running by checking the logs with:
-  ```bash
-  docker-compose logs
-  ```
+---
 
 ## Conclusion
 
-This project demonstrates the use of Docker and Docker Compose to containerize a Flask web application with a PostgreSQL database. The application is scalable, secure, and designed to persist data across container restarts using volumes and bind mounts.
+This project successfully implements containerization using Docker & Docker Compose, ensuring scalability, security, and efficiency. If you have any questions, feel free to reach out!
 
